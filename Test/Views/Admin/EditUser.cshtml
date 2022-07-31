@@ -1,0 +1,15 @@
+﻿@model Test.Models.ModelsDB.Entities.User
+
+@{
+    ViewBag.Title = "Админ панель: редактирование пользователя";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Редактирование пользователя «@Model.Name»</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Сохранить" />
+    @Html.ActionLink("Отменить изменения и вернуться к списку", "ViewTableUser")
+}

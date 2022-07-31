@@ -1,0 +1,15 @@
+﻿@model Test.Models.ModelsDB.Entities.User
+
+@{
+    ViewBag.Title = "Админ панель: создание нового пользователя";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Добавление нового пользователя</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Сохранить"/>
+    @Html.ActionLink("Отменить изменения и вернуться к списку", "ViewTableUser")
+}

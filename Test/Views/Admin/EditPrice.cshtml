@@ -1,0 +1,15 @@
+﻿@model Test.Models.ModelsDB.Entities.Price
+
+@{
+    ViewBag.Title = "Админ панель: редактирование цены";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Редактирование цены «@Model.Currency»</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Сохранить" />
+    @Html.ActionLink("Отменить изменения и вернуться к списку", "ViewTablePrice")
+}

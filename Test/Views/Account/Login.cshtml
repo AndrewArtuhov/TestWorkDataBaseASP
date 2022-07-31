@@ -1,0 +1,18 @@
+﻿@model Test.Models.ModelsDB.Entities.LoginViewModel
+@{
+    ViewBag.Title = "Вход";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3>Логин</h3>
+    </div>
+    <div class="panel-body">
+        @using (Html.BeginForm("Login", "Account"))
+        {
+         @Html.EditorForModel()
+         <input type="submit" value="Вход" />
+
+        }
+    </div>
+</div>

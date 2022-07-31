@@ -1,0 +1,15 @@
+﻿@model Test.Models.ModelsDB.Entities.Product
+
+@{
+    ViewBag.Title = "Админ панель: редактирование товара";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<h2>Редактирование товара «@Model.Name»</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.EditorForModel()
+    <input type="submit" value="Сохранить" />
+    @Html.ActionLink("Отменить изменения и вернуться к списку", "ViewTableProduct")
+}
