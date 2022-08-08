@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using Test.Models.ModelsDB.ServicesImpl;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Test.Models.ModelsDB.Services;
-using Test.Models.ModelsDB.Entities;
 using System.Linq;
-using System;
-using System.Reflection;
-using System.ComponentModel.DataAnnotations;
-using Test.Models.ViewModel;
+using DataBase.Entities;
+using Core.Service;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Test.Controllers
 {
@@ -16,22 +12,23 @@ namespace Test.Controllers
     {
         private ModelBaseService _repository;
         private List<string> _listNameTable;
-        private IProduct _productService;
-        private ITypeProduct _typeService;
-        private IPrice _priceService;
-        private IUser _userService;
-        private IRole _roleService;
+        private ProductService _productService;
+        private PriceService _priceService;
+        private TypeProductService _typeService;
+        private UserService _userService;
+        private RoleService _roleService;
 
-        public AdminController(ModelBaseService repo, IProduct repoProduct, IPrice repoPrice, ITypeProduct repoType, IUser repoUser, IRole repoRole)
+        public AdminController(ModelBaseService repo, ProductService productService, PriceService priceService, TypeProductService typeService, UserService userService, RoleService roleService)
         {
             _repository = repo;
-            _productService = repoProduct;
-            _typeService = repoType;
-            _priceService = repoPrice;
-            _userService = repoUser;
-            _roleService = repoRole;
+            _productService = productService; 
+            _typeService = typeService;
+            _priceService = priceService;
+            _userService = userService;
+            _roleService = roleService;
         }
 
+        [Authorize(Roles = "Admin")]
         public ViewResult Index()
         {
             _listNameTable = _listNameTable ?? _repository.GetTable();
@@ -39,6 +36,7 @@ namespace Test.Controllers
         }
 
         #region EditTables
+        [Authorize(Roles = "Admin")]
         public IActionResult EditTables(string TableName)
         {
             if (_productService.NameTable.Equals(TableName))
@@ -107,7 +105,7 @@ namespace Test.Controllers
 
         public ViewResult EditRole(int RoleId)
         {
-            Role role = _roleService.GetObjectList().ToList().FirstOrDefault(g => g.Id == RoleId);
+            Role role = _roleService.GetObjectList().ToList().FirstOrDefault(g => (int)g.Id == RoleId);
             return View(role);
         }
         #endregion Edit

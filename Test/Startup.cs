@@ -5,7 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Test.Models.ModelsDB.ServicesImpl;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Test.Models.ModelsDB.Services;
+using DataBase.DBContext;
+using DataBase.Repository.Implementation;
+using DataBase.Repository.Interface;
+using Core.Service;
+using Microsoft.EntityFrameworkCore;
 
 namespace Test
 {
@@ -20,21 +24,32 @@ namespace Test
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {    
+        {     
             services.AddControllersWithViews();
-            services.AddScoped<IProduct, ProductService>();
-            services.AddScoped<ModelBaseService>();
-            services.AddScoped<IPrice, PriceService>();
-            services.AddScoped<ITypeProduct, TypeService>();
-            services.AddScoped<IUser, UserService>();
-            services.AddScoped<IRole, RoleService>(); 
+            services.AddScoped<DbModel>();
+            services.AddDbContext<DbModel>(
+               options => options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IPriceRepository, PriceRepository>();
+            services.AddScoped<ITypeProductRepository, TypeRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<ProductService>();          
+            services.AddScoped<PriceService>();
+            services.AddScoped<TypeProductService>();
+            services.AddScoped<UserService>();
+            services.AddScoped<RoleService>(); 
             services.AddScoped<AccountService>();
+            services.AddScoped<ModelBaseService>();
+
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(options => //CookieAuthenticationOptions
+                .AddCookie(options =>
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                     options.AccessDeniedPath = new Microsoft.AspNetCore.Http.PathString("/Account/Login");
                 });
+
+            services.AddControllersWithViews();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,6 +71,7 @@ namespace Test
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

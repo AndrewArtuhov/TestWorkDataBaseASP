@@ -1,4 +1,4 @@
-﻿@using Test.Models.ModelsDB.Entities;
+﻿@using DataBase.Entities;
 
 @model IEnumerable<User>
 
@@ -15,8 +15,8 @@
         <table class="table table-striped table-condensed table-bordered">
             <tr>
                 <th class="text-center">ID</th>
-                <th>@await Component.InvokeAsync("DisplayName", new { type = typeof(User), nameProp = nameof(Test.Models.ModelsDB.Entities.User.Name) })</th>
-                <th>@await Component.InvokeAsync("DisplayName", new { type = typeof(User), nameProp = nameof(Test.Models.ModelsDB.Entities.User.Password) })</th>
+                <th>@await Component.InvokeAsync("DisplayName", new { type = typeof(User), nameProp = nameof(DataBase.Entities.User.Name) })</th>
+                <th>@await Component.InvokeAsync("DisplayName", new { type = typeof(User), nameProp = nameof(DataBase.Entities.User.Password) })</th>
                 <th class="text-center">Действия</th>
             </tr>
             @foreach (var item in Model)

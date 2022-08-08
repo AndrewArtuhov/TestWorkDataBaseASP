@@ -1,4 +1,4 @@
-﻿@model Test.Models.ModelsDB.Entities.Price
+﻿@model DataBase.Entities.Price;
 
 @{
     ViewBag.Title = "Админ панель: создание цены";
@@ -10,6 +10,6 @@
 @using (Html.BeginForm())
 {
     @Html.EditorForModel()
-    <input type="submit" value="Сохранить"/>
+    <input type="submit" value="Сохранить" />
     @Html.ActionLink("Отменить изменения и вернуться к списку", "ViewTablePrice")
 }
